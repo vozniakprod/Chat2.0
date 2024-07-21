@@ -1,148 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин порошков</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        #city-select {
+            width: 100%;
+            padding: 1em;
+            margin-bottom: 1em;
+        }
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            padding: 1em;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 1em;
+            width: calc(25% - 2em);
+            box-sizing: border-box;
+        }
+        .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5em;
+            cursor: pointer;
+        }
+        .cart {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ccc;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Магазин порошков для стирки на развес</h1>
+    </header>
+    
+    <select id="city-select">
+        <option value="">Выберите город</option>
+        <option value="Москва">Москва</option>
+        <option value="Санкт-Петербург">Санкт-Петербург</option>
+        <option value="Новосибирск">Новосибирск</option>
+        <!-- Добавьте больше городов по необходимости -->
+    </select>
+    
+    <div id="product-list"></div>
+    
+    <div class="cart">
+        <div>Корзина: <span id="cart-count">0</span> товаров</div>
+        <button onclick="checkout()">Оформить заказ</button>
+    </div>
+    
+    <script>
+        const products = [];
+        for (let i = 1; i <= 20; i++) {
+            products.push({ id: i, name: `Порошок для стирки №${i}`, price: (10 + i).toFixed(2) });
+        }
+        
+        const productList = document.getElementById('product-list');
+        const cartCount = document.getElementById('cart-count');
+        const cart = [];
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <title>ChatApp2.0</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://kit.fontawesome.com/86755685e1.js"
-            crossorigin="anonymous"></script>
-    </head>
+        products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+            productDiv.innerHTML = `
+                <h2>${product.name}</h2>
+                <p>Цена: ${product.price} руб/кг</p>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">Добавить в корзину</button>
+            `;
+            productList.appendChild(productDiv);
+        });
 
-    <body class="flex justify-center items-center w-screen h-screen">
+        function addToCart(productId) {
+            cart.push(productId);
+            cartCount.innerText = cart.length;
+        }
 
-        <div class=" h-full w-full">
-
-            <!-- Box -->
-            <div class="min-[300px]:h-full min-[300px]:w-full flex flex-col
-                justify-around gap-2 lg:w-3/4 lg:h-3/4 shadow-xl p-2 border-2
-                border-black">
-
-                <!-- Header -->
-                <div class="flex items-center justify-center bg-cyan-500 w-full
-                    h-max p-4 border-2 border-black">
-
-                    <span class="text-2xl font-bold tracking-wider">.ChatApp</span>
-                </div>
-                <!-- Mess Area -->
-                <div class="border-2 border-black w-full h-full p-4 flex
-                    items-end flex-wrap overflow-y-auto scrollbar">
-                    <ul id="messArea" class="flex flex-col w-full gap-2">
-
-
-
-
-                    </ul>
-                    <div id="end"></div>
-
-                </div>
-
-                <!-- Input Mess -->
-                <div class=" flex items-center justify-center bg-cyan-500 w-full
-                    h-max p-2 border-2 border-black gap-2">
-
-                    <input id="inputMess" type="text" placeholder="Type your message..." class="bg-white border-2 p-2 h-full
-                        border-black w-2/3 placeholder-gray-700
-                        focus:outline-none">
-                    <button id="send"
-                        class="flex items-center justify-center border-2 w-1/4
-                        h-full border-black bg-white hover:bg-gray-100
-                        active:bg-gray-200 active:scale-[0.99]">
-                        <i class="fa-regular fa-paper-plane"></i></button>
-                </div>
-
-            </div>
-        </div>
-
-        <script>
-        const ul = document.querySelector("#end");
-
-        window.onload = function () {
-            ul.scrollIntoView(true);
+        function checkout() {
+            alert('Оформление заказа в разработке');
         }
     </script>
-        <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
-        import { getDatabase, set, ref, push, child, onValue, onChildAdded } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
-
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDlHD7HwwJGX25XqbazUBn0PqKqwbMWHAs",
-            authDomain: "chatapp2-0-ab60d.firebaseapp.com",
-            databaseURL: "https://chatapp2-0-ab60d-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "chatapp2-0-ab60d",
-            storageBucket: "chatapp2-0-ab60d.appspot.com",
-            messagingSenderId: "1051037955812",
-            appId: "1:1051037955812:web:76731f9ab0d77976b89ef1"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-       
-        const myName = prompt("Enter your name");
-
-        const inputMess = document.querySelector('#inputMess');
-        const send = document.querySelector('#send');
-        const messArea = document.querySelector('#messArea')
-        const bodySm = document.querySelector('body')
-
-        function remCh () {
-            bodySm.firstChild.remove();
-        }
-
-        function zdvig () {
-            bodySm.firstChild.style.left = '-500px'
-        }
-
-
-        send.addEventListener('click', function (e) {
-
-            if (inputMess.value !== "") {
-                let mess = inputMess.value;
-
-                set(ref(database, "messages/" + id), {
-                    id: id,
-                    userName: myName,
-                    message: mess
-
-                });
-
-                inputMess.value = '';
-            }else {
-                let empty = '<div class="max-[600px]:w-1/2  border-2 border-black shadow-lg p-4 absolute left-4 top-24 w-1/4"><div><span>╳    Enter your Message!</span></div></div>';
-                bodySm.insertAdjacentHTML('afterbegin', empty);
-                setTimeout(zdvig, 2500);
-                setTimeout(remCh, 3000);
-            }
-
-        });
-
-        const newMess = ref(database, 'messages/');
-
-        onChildAdded(newMess, (data) => {
-            if(data.val().userName != myName){
-                let divData = '<li class=" w-1/2 flex self-start justify-start"><div class="flex flex-col"><span class="border-2 w-full border-black px-4 py-2 shadow-md">'+ data.val().message + '' +'</span><span class="text-sm text-gray-700 self-start">'+ data.val().userName + '' + '</span></div></li>'
-                messArea.insertAdjacentHTML('beforeend', divData);
-            }else{
-                let divData = '<li class=" w-1/2 flex self-end justify-end"><div class="flex flex-col"><span class="border-2 w-full border-black px-4 py-2 shadow-md">'+ data.val().message + '' +'</span><span class="text-sm text-gray-700 self-end">'+ data.val().userName + '' + '</span></div></li>'
-                messArea.insertAdjacentHTML('beforeend', divData);
-            }
-        });
-
-        let id = 0;
-
-        onChildAdded(newMess, (data) => {
-            id= (data.val().id);
-            id = ++id;
-            console.log(id);
-        });
-
-    </script>
-    </body>
-
+</body>
 </html>
